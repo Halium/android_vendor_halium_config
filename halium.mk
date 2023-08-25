@@ -323,3 +323,4 @@ PRODUCT_PACKAGES += \
     micshm.sh \
     miniafservice \
     minimediaservice \
+    libdroidmedia \
