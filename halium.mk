@@ -34,6 +34,7 @@ PRODUCT_PACKAGES += \
     bpfloader \
     bugreport \
     bugreportz \
+    cacerts \
     cgroups.json \
     charger \
     cmd \
