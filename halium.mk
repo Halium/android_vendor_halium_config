@@ -250,7 +250,6 @@ PRODUCT_PACKAGES += \
 # Host tools to install
 PRODUCT_HOST_PACKAGES += \
     adb \
-    art-tools \
     atest \
     bcc \
     bit \
@@ -258,7 +257,7 @@ PRODUCT_HOST_PACKAGES += \
     fastboot \
     flags_health_check \
     icu-data_host_i18n_apex \
-    icu_tzdata.dat_host_tzdata_apex \
+    tzdata_icu_res_files_host_prebuilts \
     idmap2 \
     incident_report \
     ld.mc \
@@ -278,15 +277,18 @@ PRODUCT_HOST_PACKAGES += \
     tz_version_host \
     tz_version_host_tzdata_apex \
 
-PRODUCT_COPY_FILES += \
-    system/core/rootdir/etc/hosts:system/etc/hosts
+# For art-tools, if the dependencies have changed, please sync them to art/Android.bp as well.
+PRODUCT_HOST_PACKAGES += \
+    ahat \
+    dexdump \
+    hprof-conv
 
 PRODUCT_SYSTEM_DEFAULT_PROPERTIES += debug.atrace.tags.enableflags=0
 PRODUCT_SYSTEM_DEFAULT_PROPERTIES += persist.traced.enable=1
+PRODUCT_SYSTEM_DEFAULT_PROPERTIES += ro.surface_flinger.game_default_frame_rate_override=60
 
 # Packages included only for eng or userdebug builds, previously debug tagged
 PRODUCT_PACKAGES_DEBUG := \
-    adb_keys \
     arping \
     gdbserver \
     idlcli \
@@ -294,11 +296,16 @@ PRODUCT_PACKAGES_DEBUG := \
     iotop \
     iperf3 \
     iw \
+    layertracegenerator \
+    libclang_rt.ubsan_standalone \
     logpersist.start \
     logtagd.rc \
+    ot-cli-ftd \
+    ot-ctl \
     procrank \
     remount \
     showmap \
+    snapshotctl \
     sqlite3 \
     ss \
     start_with_lockagent \
@@ -319,11 +326,6 @@ PRODUCT_PACKAGES_SHIPPING_API_LEVEL_34 += \
 PRODUCT_PACKAGES_DEBUG_ASAN := \
     fuzz \
     honggfuzz
-
-# Note: it is acceptable to not have a dirty-image-objects file. In that case, the special bin
-#       for known dirty objects in the image will be empty.
-PRODUCT_COPY_FILES += $(call add-to-product-copy-files-if-exists,\
-    frameworks/base/config/dirty-image-objects:system/etc/dirty-image-objects)
 
 # Halium-specific packages
 PRODUCT_PACKAGES += \
