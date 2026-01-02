@@ -16,23 +16,21 @@
 
 # Base modules and settings for the system partition.
 PRODUCT_PACKAGES += \
-    abb \
-    adbd \
-    android.hardware.audio@5.0 \
+    adbd_system_api \
     android.hardware.bluetooth.a2dp@1.0 \
+    android.hardware.thermal-V2-ndk \
     android.hidl.allocator@1.0-service \
     android.hidl.memory@1.0-impl \
     android.hidl.memory@1.0-impl.vendor \
-    android.system.suspend@1.0-service \
+    android.system.suspend-service \
     apexd \
-    applypatch \
     appops \
-    ashmemd \
     atrace \
     bcc \
     blank_screen \
     blkid \
     bootstat \
+    boringssl_self_test \
     bpfloader \
     bugreport \
     bugreportz \
@@ -40,11 +38,13 @@ PRODUCT_PACKAGES += \
     cgroups.json \
     charger \
     cmd \
+    com.android.adbd \
     com.android.conscrypt \
+    com.android.i18n \
     com.android.media \
     com.android.media.swcodec \
-    com.android.resolv \
-    com.android.tzdata \
+    com.android.mediaprovider \
+    com.android.os.statsd \
     crash_dump \
     debuggerd\
     device_config \
@@ -56,32 +56,35 @@ PRODUCT_PACKAGES += \
     flags_health_check \
     framework-sysconfig.xml \
     fsck_msdos \
+    fsverity-release-cert-der \
     fs_config_files_system \
     fs_config_dirs_system \
+    group_system \
     gsid \
     gsi_tool \
     heapprofd \
     heapprofd_client \
+    hwservicemanager \
     gatekeeperd \
     gpuservice \
-    hwservicemanager \
-    idmap \
     idmap2 \
     idmap2d \
     ime \
     incident \
     incidentd \
     incident_helper \
+    incident_helper-cmd \
+    init \
     init.environ.rc \
     init.rc \
     init_system \
     installd \
     ip \
-    ip6tables \
     iptables \
     ip-up-vpn \
     keystore \
     ld.config.txt \
+    credstore \
     ld.mc \
     libaaudio \
     libamidi \
@@ -90,21 +93,21 @@ PRODUCT_PACKAGES += \
     libandroid_runtime \
     libandroid_servers \
     libartpalette-system \
-    libashmemd_client \
     libaudioeffect_jni \
     libaudioroute \
     libbinder \
     libbinder_ndk \
+    libbinder_rpc_unstable \
     libc.bootstrap \
     libcamera2ndk \
-    libc_malloc_debug \
-    libc_malloc_hooks \
     libcutils \
     libdl.bootstrap \
+    libdl_android.bootstrap \
     libdrmframework \
     libdrmframework_jni \
     libEGL \
     libETC1 \
+    libfdtrack \
     libFFTEm \
     libfilterfw \
     libgatekeeper \
@@ -114,6 +117,7 @@ PRODUCT_PACKAGES += \
     libgui \
     libhardware \
     libhardware_legacy \
+    libinit \
     libinput \
     libinputflinger \
     libiprouteutil \
@@ -121,7 +125,6 @@ PRODUCT_PACKAGES += \
     libjpeg \
     liblog \
     libm.bootstrap \
-    libmdnssd \
     libmedia \
     libmedia_jni \
     libmediandk \
@@ -129,11 +132,10 @@ PRODUCT_PACKAGES += \
     libnetd_client \
     libnetlink \
     libnetutils \
-    libneuralnetworks \
+    libneuralnetworks_packageinfo \
     libOpenMAXAL \
     libOpenSLES \
     libpdfium \
-    libpixelflinger \
     libpower \
     libpowermanager \
     libradio_metadata \
@@ -147,8 +149,6 @@ PRODUCT_PACKAGES += \
     libspeexresampler \
     libsqlite \
     libstagefright \
-    libstagefright_amrnb_common \
-    libstagefright_enc_common \
     libstagefright_foundation \
     libstagefright_omx \
     libstdc++ \
@@ -157,9 +157,7 @@ PRODUCT_PACKAGES += \
     libui \
     libusbhost \
     libutils \
-    libvorbisidec \
     libvulkan \
-    libwifi-service \
     libwilhelm \
     linker \
     lmkd \
@@ -167,9 +165,7 @@ PRODUCT_PACKAGES += \
     logd \
     lpdump \
     lshal \
-    mdnsd \
     mediacodec.policy \
-    mediadrmserver \
     mediaextractor \
     mediametrics \
     media_profiles_V1_0.dtd \
@@ -177,18 +173,21 @@ PRODUCT_PACKAGES += \
     mke2fs \
     mtpd \
     ndc \
+    passwd_system \
     perfetto \
     ping \
     ping6 \
     platform.xml \
     pm \
     pppd \
+    preinstalled-packages-platform.xml \
     privapp-permissions-platform.xml \
     racoon \
     recovery-persist \
     resize2fs \
     rss_hwm_reset \
     run-as \
+    sanitizer.libraries.txt \
     schedtest \
     screencap \
     sdcard \
@@ -200,7 +199,7 @@ PRODUCT_PACKAGES += \
     settings \
     sgdisk \
     shell_and_utilities_system \
-    statsd \
+    snapshotctl \
     storaged \
     task_profiles.json \
     tc \
@@ -212,7 +211,7 @@ PRODUCT_PACKAGES += \
     uncrypt \
     usbd \
     vdc \
-    viewcompiler \
+    vndservicemanager \
     vold \
     watchdogd \
     wificond \
@@ -228,69 +227,89 @@ PRODUCT_PACKAGES += \
     drmserver \
     libfilterpack_imageproc \
     make_f2fs \
-    vndk_snapshot_package \
+    vndk_apex_snapshot_package \
 
 # Wrapped net utils for /vendor access.
 PRODUCT_PACKAGES += netutils-wrapper-1.0
 
-# Android Runtime APEX module.
+# Runtime (Bionic) APEX module.
 PRODUCT_PACKAGES += com.android.runtime
-PRODUCT_HOST_PACKAGES += com.android.runtime
+
+# Base modules and settings for recovery from base_vendor.mk
+PRODUCT_PACKAGES += \
+    adbd.recovery \
+    android.hardware.health@2.0-impl-default.recovery \
+    cgroups.recovery.json \
+    charger.recovery \
+    init_second_stage.recovery \
+    ld.config.recovery.txt \
+    linker.recovery \
+    recovery \
+    shell_and_utilities_recovery \
+    watchdogd.recovery \
 
 # Host tools to install
 PRODUCT_HOST_PACKAGES += \
     adb \
-    art-tools \
     atest \
     bcc \
     bit \
     e2fsck \
     fastboot \
     flags_health_check \
-    icu-data_host_runtime_apex \
+    icu-data_host_i18n_apex \
+    tzdata_icu_res_files_host_prebuilts \
     idmap2 \
     incident_report \
     ld.mc \
     lpdump \
-    mdnsd \
-    minigzip \
     mke2fs \
     resize2fs \
     sgdisk \
     sqlite3 \
     tinyplay \
     tune2fs \
-    tzdatacheck \
     unwind_info \
     unwind_reg_info \
     unwind_symbols \
-    viewcompiler \
     tzdata_host \
-    tzdata_host_runtime_apex \
-    tzlookup.xml_host_runtime_apex \
+    tzdata_host_tzdata_apex \
+    tzlookup.xml_host_tzdata_apex \
     tz_version_host \
-    tz_version_host_runtime_apex \
+    tz_version_host_tzdata_apex \
 
-PRODUCT_COPY_FILES += \
-    system/core/rootdir/ueventd.rc:root/ueventd.rc \
-    system/core/rootdir/etc/hosts:system/etc/hosts
+# For art-tools, if the dependencies have changed, please sync them to art/Android.bp as well.
+PRODUCT_HOST_PACKAGES += \
+    ahat \
+    dexdump \
+    hprof-conv
 
 PRODUCT_SYSTEM_DEFAULT_PROPERTIES += debug.atrace.tags.enableflags=0
+PRODUCT_SYSTEM_DEFAULT_PROPERTIES += persist.traced.enable=1
+PRODUCT_SYSTEM_DEFAULT_PROPERTIES += ro.surface_flinger.game_default_frame_rate_override=60
 
 # Packages included only for eng or userdebug builds, previously debug tagged
 PRODUCT_PACKAGES_DEBUG := \
-    adb_keys \
     arping \
     gdbserver \
+    idlcli \
     init-debug.rc \
     iotop \
+    iperf3 \
     iw \
+    layertracegenerator \
+    libclang_rt.ubsan_standalone \
     logpersist.start \
     logtagd.rc \
+    ot-cli-ftd \
+    ot-ctl \
     procrank \
+    remount \
     showmap \
+    snapshotctl \
     sqlite3 \
     ss \
+    start_with_lockagent \
     strace \
     sanitizer-status \
     tracepath \
@@ -300,15 +319,14 @@ PRODUCT_PACKAGES_DEBUG := \
     unwind_reg_info \
     unwind_symbols \
 
+# Base modules when shipping api level is less than or equal to 34
+PRODUCT_PACKAGES_SHIPPING_API_LEVEL_34 += \
+    android.hidl.memory@1.0-impl \
+
 # Packages included only for eng/userdebug builds, when building with SANITIZE_TARGET=address
 PRODUCT_PACKAGES_DEBUG_ASAN := \
     fuzz \
     honggfuzz
-
-# Note: it is acceptable to not have a dirty-image-objects file. In that case, the special bin
-#       for known dirty objects in the image will be empty.
-PRODUCT_COPY_FILES += $(call add-to-product-copy-files-if-exists,\
-    frameworks/base/config/dirty-image-objects:system/etc/dirty-image-objects)
 
 # Halium-specific packages
 PRODUCT_PACKAGES += \
@@ -317,11 +335,13 @@ PRODUCT_PACKAGES += \
     camera_service \
     libbiometry_fp_api \
     libcamera_compat_layer \
+    libdroidmedia \
     libhwc2_compat_layer \
     libui_compat_layer \
     libmedia_compat_layer \
+    libselinux_stubs \
     libubuntu_application_api \
+    libui_compat_layer \
     micshm.sh \
-    miniafservice \
     minimediaservice \
     libdroidmedia \
