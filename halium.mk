@@ -64,6 +64,7 @@ PRODUCT_PACKAGES += \
     heapprofd \
     heapprofd_client \
     hwservicemanager \
+    hwservicemanager_compat_symlink_module \
     gatekeeperd \
     gpuservice \
     idmap2 \
