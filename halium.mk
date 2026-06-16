@@ -100,6 +100,7 @@ PRODUCT_PACKAGES += \
     libbinder_rpc_unstable \
     libc.bootstrap \
     libcamera2ndk \
+    libcgrouprc \
     libcutils \
     libdl.bootstrap \
     libdl_android.bootstrap \
@@ -279,8 +280,9 @@ PRODUCT_HOST_PACKAGES += \
     tz_version_host \
     tz_version_host_tzdata_apex \
 
-PRODUCT_COPY_FILES += \
-    system/core/rootdir/etc/hosts:system/etc/hosts
+# Halium builds without many AOSP Java apps/APEXes. Allow the build system to
+# proceed when those modules are absent from the manifest rather than aborting.
+ALLOW_MISSING_DEPENDENCIES := true
 
 PRODUCT_SYSTEM_DEFAULT_PROPERTIES += debug.atrace.tags.enableflags=0
 PRODUCT_SYSTEM_DEFAULT_PROPERTIES += persist.traced.enable=1
@@ -320,11 +322,6 @@ PRODUCT_PACKAGES_SHIPPING_API_LEVEL_34 += \
 PRODUCT_PACKAGES_DEBUG_ASAN := \
     fuzz \
     honggfuzz
-
-# Note: it is acceptable to not have a dirty-image-objects file. In that case, the special bin
-#       for known dirty objects in the image will be empty.
-PRODUCT_COPY_FILES += $(call add-to-product-copy-files-if-exists,\
-    frameworks/base/config/dirty-image-objects:system/etc/dirty-image-objects)
 
 # Halium-specific packages
 PRODUCT_PACKAGES += \
