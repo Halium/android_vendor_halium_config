@@ -16,7 +16,6 @@
 
 # Base modules and settings for the system partition.
 PRODUCT_PACKAGES += \
-    adbd_system_api \
     android.hardware.bluetooth.a2dp@1.0 \
     android.hardware.thermal-V2-ndk \
     android.hidl.allocator@1.0-service \
@@ -37,7 +36,6 @@ PRODUCT_PACKAGES += \
     cgroups.json \
     charger \
     cmd \
-    com.android.adbd \
     com.android.conscrypt \
     com.android.i18n \
     com.android.media \
