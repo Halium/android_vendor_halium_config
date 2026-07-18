@@ -200,6 +200,7 @@ PRODUCT_PACKAGES += \
     shell_and_utilities_system \
     snapshotctl \
     storaged \
+    system-build.prop \
     task_profiles.json \
     tc \
     tombstoned \
