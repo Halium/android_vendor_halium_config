@@ -222,6 +222,12 @@ PRODUCT_PACKAGES += \
     system_manifest.xml \
     system_compatibility_matrix.xml \
 
+# VINTF manifest for system_ext. Carries the android.hidl.manager entry for
+# hwservicemanager (see SYSTEM_EXT_HWSERVICE_FILES in build/make); without it
+# hwservicemanager self-disables at boot and vendor HIDL HALs cannot register.
+PRODUCT_PACKAGES += \
+    system_ext_manifest.xml \
+
 # Packages from media_system.mk
 PRODUCT_PACKAGES += \
     drmserver \
