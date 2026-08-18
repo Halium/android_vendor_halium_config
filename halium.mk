@@ -64,7 +64,6 @@ PRODUCT_PACKAGES += \
     hwservicemanager \
     hwservicemanager_compat_symlink_module \
     gatekeeperd \
-    gpuservice \
     idmap2 \
     idmap2d \
     ime \
